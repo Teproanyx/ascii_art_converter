@@ -1,14 +1,12 @@
 from sys import argv
+import processing
+import re
 
-option = dict.fromkeys(['-e', '-s', '-nb', '-bl'], False)
-minimize_size = (1, 1)
+option = dict.fromkeys(['-e', '-sa', '-nb', '-bl'], False)
+option['-s'] = (100, 100)
 
 
 def print_help():
-    pass
-
-
-def processing(input_name, output_name):
     pass
 
 
@@ -19,8 +17,10 @@ if __name__ == "__main__":
 
     for i in argv:  # option processing
         if i[0] == '-':
-            if i.startswith('-m'):  # minimize option -- example: '-m4x4'
-                minimize_size = (i[2], i[4])
+            if i.startswith('-s'):  # size option
+                capture = re.match(r'-s(\d+)x(\d+)', i)
+                if capture:
+                    option['-s'] = (capture.group(1), capture.group(2))
             elif i in option:
                 option[i] = True    # other options
         else:
@@ -29,18 +29,12 @@ if __name__ == "__main__":
     if "-b" not in argv:  # one image
         image = argv[-2]
         output = argv[-1]
-        processing(image, output)
+        processing(image, output, option)
 
     else:  # batch
         app = argv[-1]  # appended text at the end of each files
         for i in reversed(argv[:-1]):
             if i[0] != '-':
-                processing(i, f'{i}_{app}')
+                processing(i, f'{i}_{app}', option)
             else:
                 break
-
-# input
-# maratt mek egirl
-#
-# output
-# maratt_egirl mek_egirl
