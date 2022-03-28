@@ -1,5 +1,5 @@
 from sys import argv
-import processing
+from processing import processing
 import re
 from os.path import splitext
 
