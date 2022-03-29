@@ -9,9 +9,9 @@ def ascii_conversion(img: Image.Image) -> str:
     data = img.getdata()
 
     output = []
-    for i in range(width):
-        for j in range(height):
-            output.append(char_set[transform(data[i + j * width], MAX_LUMINANCE, len(char_set) - 1)])
+    for i in range(height):
+        for j in range(width):
+            output.append(char_set[transform(data[i * width + j], MAX_LUMINANCE, len(char_set) - 1)])
         output.append('\n')
     return ''.join(output)
 
