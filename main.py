@@ -11,20 +11,23 @@ def print_help():
     pass
 
 
+def option_processing():
+    for i in argv[1:]:  # option processing
+        if i.startswith('-s'):  # size option
+            capture = re.match(r'-s(\d+)x(\d+)', i)
+            if capture:
+                option['-s'] = (int(capture.group(1)), int(capture.group(2)))
+        elif i in option:
+            option[i] = True  # other options
+        elif not i.startswith('-'):
+            break
+
 if __name__ == "__main__":
     if "-h" in argv:  # help
         print_help()
         quit()
 
-    for index in argv[1:]:  # option processing
-        if index.startswith('-s'):  # size option
-            capture = re.match(r'-s(\d+)x(\d+)', index)
-            if capture:
-                option['-s'] = (int(capture.group(1)), int(capture.group(2)))
-        elif index in option:
-            option[index] = True  # other options
-        elif not index.startswith('-'):
-            break
+    option_processing()
 
     quote = '\"\''
     if "-b" not in argv:  # one image
