@@ -22,6 +22,7 @@ def option_processing():
         elif not i.startswith('-'):
             break
 
+
 if __name__ == "__main__":
     if "-h" in argv:  # help
         print_help()
