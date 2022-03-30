@@ -7,11 +7,11 @@ option = dict.fromkeys(['-e', '-sa', '-nb', '-bl'], False)
 option['-s'] = (100, 100)
 
 
-def print_help():
+def print_help() -> None:
     pass
 
 
-def option_processing():
+def option_processing() -> None:
     for i in argv[1:]:  # option processing
         if i.startswith('-s'):  # size option
             capture = re.match(r'-s(\d+)x(\d+)', i)
