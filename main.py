@@ -16,14 +16,13 @@ if __name__ == "__main__":
         print_help()
         quit()
 
-    for index in argv:  # option processing
-        if index[0] == '-':
-            if index.startswith('-s'):  # size option
-                capture = re.match(r'-s(\d+)x(\d+)', index)
-                if capture:
-                    option['-s'] = (capture.group(1), capture.group(2))
-            elif index in option:
-                option[index] = True  # other options
+    for index in argv[1:]:  # option processing
+        if index.startswith('-s'):  # size option
+            capture = re.match(r'-s(\d+)x(\d+)', index)
+            if capture:
+                option['-s'] = (int(capture.group(1)), int(capture.group(2)))
+        elif index in option:
+            option[index] = True  # other options
         else:
             break
 
