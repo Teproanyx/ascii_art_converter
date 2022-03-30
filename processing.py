@@ -8,7 +8,8 @@ def ascii_conversion(img: Image.Image) -> str:
     char_set = list(r"""$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^`'. """)
     data = np.array(img.getdata(), dtype='u1').reshape(img.height, img.width)
 
-    data = np.rint(np.interp(data, [0, 255], [0, len(char_set) - 1])).astype('u1')  # round interpolated value to int
+    # round interpolated value to int
+    data = np.rint(np.interp(data, [0, MAX_LUMINANCE], [0, len(char_set) - 1])).astype('u1')
     data = np.array(char_set)[data]  # index each pixel to corresponding ascii representation
 
     return '\n'.join([''.join(row) for row in data])    # turn ascii matrix into a multiline string
