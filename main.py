@@ -23,7 +23,7 @@ if __name__ == "__main__":
                 option['-s'] = (int(capture.group(1)), int(capture.group(2)))
         elif index in option:
             option[index] = True  # other options
-        else:
+        elif not index.startswith('-'):
             break
 
     quote = '\"\''
