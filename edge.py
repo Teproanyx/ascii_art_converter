@@ -1,25 +1,51 @@
-from PIL import Image, ImageFilter
-import math
+from PIL import ImageFilter
 
 
-def sobel_filters(image):
+def laplacian(image):
     width, height = image.size
-    theta = Image.new(mode="L", size=(width, height))
-    g = Image.new(mode="L", size=(width, height))
-
-    x_sobel = image.filter(ImageFilter.Kernel((3, 3), (-1, 0, 1, -2, 0, 2, -1, 0, 1), 1, 0))
-    y_sobel = image.filter(ImageFilter.Kernel((3, 3), (1, 2, 1, 0, 0, 0, -1, -2, -1), 1, 0))
-
-    x_squared = x_sobel.point(lambda x: x ** 2)
-    y_squared = y_sobel.point(lambda x: x ** 2)
+    gmax = 0
+    g = image.filter(ImageFilter.FIND_EDGES)
 
     for i in range(width):
         for j in range(height):
-            g.putpixel((i, j), int(math.sqrt(x_squared.load()[i, j] + y_squared.load()[i, j])))
-            theta.putpixel((i, j), int((math.atan2(x_sobel.load()[i, j], y_sobel.load()[i, j])) * 180 / math.pi))
+            if g.load()[i, j] > gmax:
+                gmax = g.load()[i, j]
 
-    return g, theta
+    for i in range(width):
+        for j in range(height):
+            g.putpixel((i, j), int((g.load()[i, j] * 255) / gmax))
+
+    return g, gmax
+
+def threshold(g, gmax, lowThresholdRatio=0.25, highThresholdRatio=0.08):
+    width, height = g.size
+    highThreshold = gmax * highThresholdRatio
+    lowThreshold = highThreshold * lowThresholdRatio
+    weak = 25
+    strong = 255
+    for i in range(width):
+        for j in range(height):
+            if g.load()[i, j] > highThreshold:
+                g.load()[i, j] = strong
+            elif (g.load()[i, j] >= lowThreshold) and (g.load()[i, j] <= highThreshold):
+                g.load()[i, j] = weak
+            else:
+                g.load()[i, j] = 0
 
 
-def non_max_suppression(image):
-    pass
+    return g, weak, strong
+
+
+def hysteresis(image, weak, strong=255):
+    width, height = image.size
+    for i in range(1, width-1):
+        for j in range(1, height-1):
+            if (image.load()[i, j] == weak):
+                if ((image.load()[i + 1, j - 1] == strong) or (image.load()[i + 1, j] == strong) or (image.load()[i + 1, j + 1] == strong)
+                        or (image.load()[i, j - 1] == strong) or (image.load()[i, j + 1] == strong)
+                        or (image.load()[i - 1, j - 1] == strong) or (image.load()[i - 1, j] == strong) or (image.load()[i - 1, j + 1] == strong)):
+                    image.load()[i, j] = strong
+                else:
+                    image.load()[i, j] = 0
+
+    return image
