@@ -23,13 +23,7 @@ def option_processing() -> None:
             break
 
 
-if __name__ == "__main__":
-    if "-h" in argv:  # help
-        print_help()
-        quit()
-
-    option_processing()
-
+def absolute_bullshitery():
     quote = '\"\''
     if "-b" not in argv:  # one image
         image = argv[-2].strip(quote)
@@ -43,3 +37,13 @@ if __name__ == "__main__":
                 processing(image, f'{splitext(image)[0]}_{app}.txt', option)
             else:
                 break
+
+
+if __name__ == "__main__":
+    if "-h" in argv:  # help
+        print_help()
+        quit()
+
+    option_processing()
+
+    absolute_bullshitery()
