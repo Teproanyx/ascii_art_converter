@@ -7,25 +7,23 @@ option = dict.fromkeys(['-e', '-sa', '-nb', '-bl'], False)
 option['-s'] = (100, 100)
 
 
-def print_help():
+def print_help() -> None:
     pass
 
 
-if __name__ == "__main__":
-    if "-h" in argv:  # help
-        print_help()
-        quit()
-
-    for index in argv[1:]:  # option processing
-        if index.startswith('-s'):  # size option
-            capture = re.match(r'-s(\d+)x(\d+)', index)
+def option_processing() -> None:
+    for i in argv[1:]:  # option processing
+        if i.startswith('-s'):  # size option
+            capture = re.match(r'-s(\d+)x(\d+)', i)
             if capture:
                 option['-s'] = (int(capture.group(1)), int(capture.group(2)))
-        elif index in option:
-            option[index] = True  # other options
-        else:
+        elif i in option:
+            option[i] = True  # other options
+        elif not i.startswith('-'):
             break
 
+
+def absolute_bullshitery():
     quote = '\"\''
     if "-b" not in argv:  # one image
         image = argv[-2].strip(quote)
@@ -39,3 +37,13 @@ if __name__ == "__main__":
                 processing(image, f'{splitext(image)[0]}_{app}.txt', option)
             else:
                 break
+
+
+if __name__ == "__main__":
+    if "-h" in argv:  # help
+        print_help()
+        quit()
+
+    option_processing()
+
+    absolute_bullshitery()

@@ -1,23 +1,18 @@
 from PIL import Image, ImageFilter
+import numpy as np
 
 MAX_LUMINANCE = 255
 
 
 def ascii_conversion(img: Image.Image) -> str:
     char_set = list(r"""$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^`'. """)
-    width, height = img.size
-    data = img.getdata()
+    data = np.array(img.getdata(), dtype='u1').reshape(img.height, img.width)
 
-    output = []
-    for i in range(height):
-        for j in range(width):
-            output.append(char_set[transform(data[i * width + j], MAX_LUMINANCE, len(char_set) - 1)])
-        output.append('\n')
-    return ''.join(output)
+    # round interpolated value to int
+    data = np.rint(np.interp(data, [0, MAX_LUMINANCE], [0, len(char_set) - 1])).astype('u1')
+    data = np.array(char_set)[data]  # index each pixel to corresponding ascii representation
 
-
-def transform(val: int, from_max: int, to_max: int) -> int:
-    return round(val / from_max * to_max)
+    return '\n'.join([''.join(row) for row in data])    # turn ascii matrix into a multiline string
 
 
 def processing(img: str, output_name: str, options: dict) -> None:
