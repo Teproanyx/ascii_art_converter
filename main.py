@@ -25,18 +25,10 @@ def option_processing() -> None:
 
 def absolute_bs():
     quote = '\"\''
-    if "-b" not in argv:  # one image
-        image = argv[-2].strip(quote)
-        output = argv[-1]
-        processing(image, splitext(output)[0] + '.txt', option)
-    else:  # batch
-        app = argv[-1]  # appended text at the end of each files
-        for index in reversed(argv[:-1]):
-            if index[0] != '-':
-                image = index.strip(quote)
-                processing(image, f'{splitext(image)[0]}_{app}.txt', option)
-            else:
-                break
+    image = argv[-2].strip(quote)
+    output = argv[-1]
+    with open(output, "w") as out:
+        out.write(processing(image, option))
 
 
 if __name__ == "__main__":
