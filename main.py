@@ -30,7 +30,7 @@ def absolute_bs() -> None:
     quote = '\"\''
     image = argv[-2].strip(quote)
     output = argv[-1]
-    with open(output, "w") as out:
+    with open(splitext(output)[0] + '.txt', "w") as out:
         out.write(processing(image, option))
 
 
