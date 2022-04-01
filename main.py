@@ -8,7 +8,10 @@ option['-s'] = (100, 100)
 
 
 def print_help() -> None:
-    pass
+    print('Usage: py.exe main.py [options] <input_file> <output_filename>'
+          'Options:'
+          '-e   ->  Edge Processing'
+          '-bl  ->  Blur')
 
 
 def option_processing() -> None:
