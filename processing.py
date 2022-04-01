@@ -23,7 +23,7 @@ def processing(img: str, options: dict) -> str:
         height = int((options['-s'][1] / 100) * og_height)
         image = image.resize((width, height))
 
-        if options['-bl']:
+        if options['-b']:
             image = image.filter(ImageFilter.BLUR)
 
         if options['-e']:

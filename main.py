@@ -3,7 +3,7 @@ from processing import processing
 import re
 from os.path import splitext
 
-option = dict.fromkeys(['-e', '-bl'], False)
+option = dict.fromkeys(['-e', '-b'], False)
 option['-s'] = (100, 100)
 
 
@@ -12,7 +12,7 @@ def print_help() -> None:
           Options:
           -s<a>x<b> ->  Resize image to <a>% width and <b>% height
           -e        ->  Edge Processing
-          -bl       ->  Blur""")
+          -b       ->  Blur""")
 
 
 def option_processing() -> None:
