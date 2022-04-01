@@ -10,8 +10,9 @@ option['-s'] = (100, 100)
 def print_help() -> None:
     print("""Usage: py.exe main.py [options] <input_file> <output_filename>
           Options:
-          -e   ->  Edge Processing
-          -bl  ->  Blur""")
+          -s<a>x<b> ->  Resize image to <a>% width and <b>% height
+          -e        ->  Edge Processing
+          -bl       ->  Blur""")
 
 
 def option_processing() -> None:
