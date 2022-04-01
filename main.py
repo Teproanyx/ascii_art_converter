@@ -3,7 +3,7 @@ from processing import processing
 import re
 from os.path import splitext
 
-option = dict.fromkeys(['-e', '-sa', '-nb', '-bl'], False)
+option = dict.fromkeys(['-e', '-bl'], False)
 option['-s'] = (100, 100)
 
 
@@ -23,7 +23,7 @@ def option_processing() -> None:
             break
 
 
-def absolute_bullshitery():
+def absolute_bs():
     quote = '\"\''
     if "-b" not in argv:  # one image
         image = argv[-2].strip(quote)
@@ -46,4 +46,4 @@ if __name__ == "__main__":
 
     option_processing()
 
-    absolute_bullshitery()
+    absolute_bs()
