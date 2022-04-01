@@ -1,6 +1,6 @@
 from PIL import Image, ImageFilter
 import numpy as np
-
+from edge import *
 MAX_LUMINANCE = 255
 
 
@@ -25,5 +25,11 @@ def processing(img: str, output_name: str, options: dict) -> None:
         if options['-bl']:
             image = image.filter(ImageFilter.BLUR)
 
-        with open(output_name, "w") as out:
-            out.write(ascii_conversion(image))
+        if options['-e']:
+            g, gmax = laplacian(image)
+            g, weak, strong = threshold(g, gmax, lowThresholdRatio=0.25, highThresholdRatio=0.08)
+            image = hysteresis(g, weak, strong=255)
+
+        return ascii_conversion(image)
+
+
