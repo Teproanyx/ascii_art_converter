@@ -23,7 +23,7 @@ def option_processing() -> None:
             break
 
 
-def absolute_bs():
+def absolute_bs() -> None:
     quote = '\"\''
     image = argv[-2].strip(quote)
     output = argv[-1]
