@@ -23,7 +23,7 @@ def option_processing() -> None:
                 option['-s'] = (int(capture.group(1)), int(capture.group(2)))
         elif i in option:
             option[i] = True  # other options
-        elif not i.startswith('-'):
+        else:
             break
 
 
