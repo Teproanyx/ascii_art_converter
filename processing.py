@@ -1,6 +1,7 @@
 from PIL import Image, ImageFilter
 import numpy as np
 from edge import *
+
 MAX_LUMINANCE = 255
 
 
@@ -15,7 +16,7 @@ def ascii_conversion(img: Image.Image) -> str:
     return '\n'.join([''.join(row) for row in data])    # turn ascii matrix into a multiline string
 
 
-def processing(img: str, output_name: str, options: dict) -> None:
+def processing(img: str, options: dict) -> str:
     with Image.open(img).convert("L") as image:
         og_width, og_height = image.size
         width = int((options['-s'][0] / 100) * og_width)
